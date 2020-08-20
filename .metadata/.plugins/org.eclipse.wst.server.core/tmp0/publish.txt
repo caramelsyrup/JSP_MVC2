@@ -1,0 +1,6 @@
+#Tomcat publish data
+#Thu Aug 20 16:24:46 KST 2020
+org.eclipse.jst.j2ee.server\:jstl-1.2=WEB-INF/lib/jstl-1.2.jar
+org.eclipse.jst.j2ee.server\:gson-2.8.5=WEB-INF/lib/gson-2.8.5.jar
+org.eclipse.jst.j2ee.server\:mybatis-3.4.6=WEB-INF/lib/mybatis-3.4.6.jar
+org.eclipse.jst.j2ee.server\:json-simple-1.1.1=WEB-INF/lib/json-simple-1.1.1.jar

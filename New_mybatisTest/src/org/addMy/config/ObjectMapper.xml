@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="org.addMy.config.ObjectMapper">
+ 	<!-- 반복되는 조건 구문을 search로 묶어서 저장시킴. 그리고 필요할때마다 꺼내 씀 include를 이용해서 -->
+ 	<sql id="search">
+ 		<where>
+ 			<if test="word!=null and field=='name'">
+ 			<!-- name like '%'||#{word}||'%'  -->
+ 				name like '%${word}%'
+ 			</if>
+ 			<if test="word!=null and field=='tel'">
+ 				tel like '%'||#{word}||'%'
+ 			</if>
+ 		</where>
+ 	</sql>
+ 	<!-- parameterType이 메소드에서 파라미터를 의미, resultType는 메소드에서 return을 의미  -->
+ 	
+ 	<!-- insert  -->
+ 	<insert id="insertData" parameterType="org.addrMy.model.AddressVO">
+ 		insert into address(num,name,zipcode,address,tel)
+ 		values(address_seq.nextval,#{name},#{zipcode},#{address},#{tel})
+ 	</insert>
+ 	
+ 	<!-- all select -->
+ 	<select id="listData" resultType="org.addrMy.model.AddressVO">
+ 		select * from address
+ 	</select>
+ 	
+ 	<!-- countData -->
+ 	<select id="countData" resultType="int">
+ 		select count(num) from address
+ 	</select>
+ 	
+ 	<!-- viewData -->
+ 	<select id="viewData" parameterType="int" resultType="org.addrMy.model.AddressVO">
+ 		select * from address where num = #{num}
+ 	</select>
+ 	
+ 	<!-- updateData -->
+ 	<update id="updateData" parameterType="org.addrMy.model.AddressVO">
+ 		UPDATE address SET name=#{name},zipcode=#{zipcode},address=#{address},tel=#{tel} WHERE num=#{num}
+ 	</update>
+ 	
+ 	<!-- deleteData -->
+ 	<delete id="deleteData" parameterType="int">
+		delete from address where num=#{num} 	
+ 	</delete>
+ 	
+ 	<!-- zipData -->
+ 	<select id="zipData" parameterType="String" resultType="zipvo">
+ 		 select * from zipcode where dong like '%'||#{dong}||'%' 
+ 		<!-- 다른 방식 getter를 부르는 방식 -->
+ 	<!--	select * from zipcode where dong like '%${dong}%'  -->
+ 	</select>
+ 	
+ 	<!-- searchData --> <!-- where 조건 사용법 -->
+ 	<select id="searchData" parameterType="java.util.Map" resultType="addrvo">
+ 		select * from address 
+		<include refid="search"/>
+ 	</select>
+ 	
+ 	<!-- countsearchData -->
+ 	<select id="countsearchData" parameterType="String" resultType="int">
+ 		select count(num) from address
+		<include refid="search"/>
+ 	</select>
+ 	
+ 	<!-- deleteAjaxAction -->
+ 	<delete id="deleteAjaxData" parameterType="int">
+ 		delete from address where num =#{num}
+ 	</delete>
+ 	
+ </mapper>
